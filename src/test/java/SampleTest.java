@@ -1,21 +1,25 @@
-import io.restassured.RestAssured;
+import Base_util.Apache_Util;
+import Rest.Rest_Post_Hit;
+import io.restassured.*;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class SampleTest
-{ @Test
-    public void test1 ()
+{
+
+    public static void main(String[] args)
     {
-        Response response=RestAssured.get("https://dummy.restapiexample.com/api/v1/employees");
+        System.out.println(Apache_Util.CreateJsonString("src/test/Test_Data/Post_Request.json"));
+        //Rest_Post_Hit.baseurl();
 
-        System.out.println(response.statusCode());
-        System.out.println(response.contentType());
-        System.out.println(response.getHeaders());
-        System.out.println(response.getTime());
 
-        Assert.assertEquals(response.statusCode(),200);
+        RestAssured.given().body(Apache_Util.CreateJsonString("src/test/Test_Data/Post_Request.json")).
+                when().post("https://reqres.in/api/users").
+                then().statusCode(201).log().all();
     }
+
 }
 
 
